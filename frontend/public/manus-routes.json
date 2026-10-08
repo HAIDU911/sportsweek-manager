@@ -1,1 +1,25 @@
-{"routes":[{"path":"/","title":"SportsWeek home"},{"path":"/sports","title":"Sports"},{"path":"/schedule","title":"Full schedule"},{"path":"/tournaments","title":"Tournaments"},{"path":"/tournaments/:id","title":"Tournament detail"},{"path":"/leaderboards","title":"Leaderboards"},{"path":"/teams","title":"Teams"},{"path":"/login","title":"Login"},{"path":"/register","title":"Register"},{"path":"/verify-email","title":"Verify email"},{"path":"/forgot-password","title":"Forgot password"},{"path":"/reset-password","title":"Reset password"},{"path":"/notifications","title":"Notifications"},{"path":"/profile","title":"My profile"},{"path":"/captain","title":"Captain dashboard"},{"path":"/admin","title":"Admin dashboard"},{"path":"/scorer","title":"Scorer dashboard"}]}
+{
+  "routes": [
+    { "path": "/", "name": "Home", "auth": false },
+    { "path": "/sports", "name": "Sports", "auth": false },
+    { "path": "/tournaments", "name": "Tournaments", "auth": false },
+    { "path": "/tournaments/:id", "name": "Tournament Detail", "auth": false },
+    { "path": "/leaderboards", "name": "Leaderboards", "auth": false },
+    { "path": "/teams", "name": "Teams", "auth": false },
+    { "path": "/schedule", "name": "Schedule", "auth": false },
+    { "path": "/login", "name": "Login", "auth": false },
+    { "path": "/register", "name": "Register", "auth": false },
+    { "path": "/verify-email", "name": "Verify Email", "auth": false },
+    { "path": "/forgot-password", "name": "Forgot Password", "auth": false },
+    { "path": "/reset-password", "name": "Reset Password", "auth": false },
+    { "path": "/profile", "name": "Profile", "auth": true },
+    { "path": "/notifications", "name": "Notifications", "auth": true },
+    { "path": "/captain", "name": "Captain Desk", "auth": true, "role": "Captain" },
+    { "path": "/scorer", "name": "Scorer Desk", "auth": true, "role": "Scorer" },
+    { "path": "/admin", "name": "Admin Dashboard", "auth": true, "role": "Admin" },
+    { "path": "/admin/tournaments", "name": "Manage Tournaments", "auth": true, "role": "Admin" },
+    { "path": "/admin/sports", "name": "Manage Sports", "auth": true, "role": "Admin" },
+    { "path": "/admin/teams", "name": "Manage Teams", "auth": true, "role": "Admin" },
+    { "path": "/admin/score-corrections", "name": "Score Corrections", "auth": true, "role": "Admin" }
+  ]
+}
