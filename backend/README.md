@@ -55,7 +55,7 @@ On first startup, the application creates the database tables with EF Core `Ensu
 
 Change or delete demo accounts before any real deployment.
 
-If you already created the `sportsweek` database from the earlier C# package, run `mysql-email-migration.sql` once in MySQL Workbench to add the email-verification columns, then run `mysql-team-review-migration.sql` for the team review reason column. For production, convert these changes into a proper EF Core migration instead of manually editing the schema.
+If you already created the `sportsweek` database from the earlier C# package, run `mysql-email-migration.sql` once in MySQL Workbench to add the email-verification columns, run `mysql-team-review-migration.sql` for the team review reason column, and run `mysql-password-reset-migration.sql` for the password-reset columns. For production, convert these changes into a proper EF Core migration instead of manually editing the schema.
 
 ## Main endpoints
 
@@ -65,34 +65,48 @@ If you already created the `sportsweek` database from the earlier C# package, ru
 - `POST /api/auth/login`
 - `GET /api/auth/verify-email?email=...&token=...`
 - `POST /api/auth/resend-verification`
+- `POST /api/auth/forgot-password`
+- `POST /api/auth/reset-password`
+- `POST /api/auth/change-password`
 - `GET /api/public/sports`
 - `GET /api/public/teams`
 - `GET /api/public/tournaments`
 - `GET /api/public/tournaments/{id}`
 - `GET /api/public/tournaments/{id}/fixtures`
+- `GET /api/public/fixtures?filter=upcoming|results&sportId=...&limit=...`
 - `GET /api/public/leaderboards/{sportId}`
 - `GET /api/public/leaderboards/overall`
 - `GET /api/public/statistics/{sportId}`
 - `GET /api/sports`
+- `POST /api/sports`
+- `PUT /api/sports/{id}`
+- `DELETE /api/sports/{id}`
 - `GET /api/tournaments`
 - `POST /api/tournaments`
+- `PUT /api/tournaments/{id}`
+- `DELETE /api/tournaments/{id}`
 - `GET /api/admin/dashboard`
 - `POST /api/tournaments/{id}/teams`
+- `PUT /api/captain/teams/{teamId}`
 - `POST /api/registrations/{id}/approve`
 - `POST /api/tournaments/{id}/generate-fixtures`
 - `GET /api/tournaments/{id}/fixtures`
 - `POST /api/tournaments/{id}/auto-schedule`
 - `POST /api/fixtures/{id}/schedule`
 - `POST /api/fixtures/{id}/score`
+- `POST /api/fixtures/{id}/correct`
 - `POST /api/teams/{id}/withdraw`
 - `GET /api/tournaments/{id}/regenerate-fixtures/preview?withdrawTeamId={teamId}`
 - `POST /api/tournaments/{id}/regenerate-fixtures`
 - `GET /api/leaderboards/{sportId}`
 - `GET /api/leaderboards/overall`
 - `GET /api/notifications`
+- `POST /api/notifications/{id}/read`
+- `POST /api/notifications/read-all`
+- `GET /api/users/search?q=...&tournamentId=...`
 - `GET /api/captain/teams`
 - `GET /api/captain/fixtures`
-- `GET /api/admin/teams?status=Pending`
+- `GET /api/admin/teams?status=Pending&tournamentId=...`
 - `POST /api/registrations/{id}/reject`
 - `GET /api/audit`
 
@@ -212,9 +226,9 @@ On Linux, `host.docker.internal` may require an extra host-gateway setting; use 
 
 ## Known MVP limitations
 
-- SignalR live updates are not yet wired into the API.
-- Notification delivery is stored-model ready but does not yet connect to email/SMS providers.
+- SignalR live updates are not yet wired into the API; pages refresh on navigation, a manual refresh, or a 45-second notification poll.
+- In-app notifications are produced for every captain-affecting transition (approval, rejection, scheduling, results, corrections, withdrawal) with read state; email delivery still runs synchronously inside requests and should move to a queue-backed worker for heavy load.
 - Score validation is generic; sport-specific structured scoring should be added for cricket overs, badminton games, penalties, overtime, and chess time controls.
-- Controlled result reopening and downstream rollback should be implemented before real tournaments.
+- Admin score correction refreshes the winner path for future rounds but does not rewrite already-played downstream history; the withdrawal/regeneration workflow covers structural changes.
 - A production SQL migration set should replace `EnsureCreated`.
 - The current API does not include the frontend portals.

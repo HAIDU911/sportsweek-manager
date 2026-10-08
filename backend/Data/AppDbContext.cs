@@ -23,6 +23,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         b.Entity<Fixture>().HasIndex(x => new { x.TournamentId, x.RoundNo, x.Slot }).IsUnique();
         b.Entity<Fixture>().HasIndex(x => new { x.TournamentId, x.StartsAt, x.Venue });
         b.Entity<Tournament>().Property(x => x.Version).IsConcurrencyToken();
+        b.Entity<Fixture>().Property(x => x.Version).IsConcurrencyToken();
         b.Entity<TeamPlayer>().HasKey(x => new { x.TeamId, x.UserId });
         b.Entity<Team>().HasOne(x => x.Captain).WithMany(x => x.CaptainedTeams).HasForeignKey(x => x.CaptainId).OnDelete(DeleteBehavior.Restrict);
         b.Entity<TeamPlayer>().HasOne(x => x.User).WithMany(x => x.TeamPlayers).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);

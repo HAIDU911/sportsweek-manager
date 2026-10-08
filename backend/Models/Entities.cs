@@ -19,6 +19,8 @@ public class User
     [MaxLength(128)] public string? EmailVerificationTokenHash { get; set; }
     public DateTime? EmailVerificationExpiresAt { get; set; }
     public DateTime? EmailVerifiedAt { get; set; }
+    [MaxLength(128)] public string? PasswordResetTokenHash { get; set; }
+    public DateTime? PasswordResetExpiresAt { get; set; }
     public string PasswordHash { get; set; } = "";
     public UserRole Role { get; set; } = UserRole.Captain;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
