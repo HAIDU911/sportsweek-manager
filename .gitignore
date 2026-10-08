@@ -1,0 +1,33 @@
+# .NET / C#
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+.vscode/
+*.DotSettings.user
+
+# Node / Frontend
+node_modules/
+dist/
+dist-ssr/
+*.local
+.npm/
+.eslintcache
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Logs and DB
+*.log
+*.sqlite
+*.sqlite3
+
+# OS Files
+Thumbs.db
+[Dd]esktop.ini
+.DS_Store
